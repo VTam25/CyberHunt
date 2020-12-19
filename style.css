@@ -3,7 +3,7 @@ body{
 }
 .main{
     margin-top: 10%;
-    margin-bottom: 20%;
+    margin-bottom: 15%;
 }
 
 h1{
@@ -17,4 +17,10 @@ h1{
     width: 50% !important;
     height: 10% !important;
     margin-bottom: 1rem;
+}
+
+.form-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
