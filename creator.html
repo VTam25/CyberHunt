@@ -1,0 +1,203 @@
+<html>
+  <head>
+    <title>CYBER HUNT</title>
+    <script src="https://js.radar.io/v3/radar.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnE8iIlHCVuB989nyPtBARy33wFhTmHnY&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+
+    <style type="text/css">
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 45%;
+        width: 100%;
+      }
+
+      /* Optional: Makes the sample page fill the window. */
+      html,
+  /*    body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }*/
+    </style>
+
+  </head>
+  <body>
+    <div id = "new_game_form">
+      <div id="game_code">
+        <label for="radar_gc">Enter Game Code:</label>
+        <input type="text" name="radar_gc" class="form-control">
+      </div>
+
+      <div id="add_clue">
+        <div id="gmaps_widget">
+          <div id="map"></div>
+        </div>
+        <label for="clue_text">Add a New Clue:</label>
+        <textarea name="clue_text" rows="5" class="form-control"></textarea>
+        <input type="submit" value="Add Clue" onclick="addClue()"/>
+      </div>
+      
+      <div id="clues">
+        <h3>Clues</h3>
+        <table id="clue_table" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>Clue</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody id="clue_body">
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+       <input type="submit" value="Let the hunt begin." onclick="newGame()"/>
+      </div>
+
+    </div>
+    
+    <script type="text/javascript">
+      var gamecode;
+      var coords;
+      var clueText;
+      var finalClues;
+      var num = 0;
+
+      function addClue() {
+        clueText = document.getElementsByName("clue_text")[0].value;
+        if (coords && clueText){
+          num+=1;
+          console.log("clueText:", clueText);
+          console.log("coords:", coords);
+
+          // Add this clue to a table/array
+
+          var tbodyTr = document.createElement('tr');
+          var tbodyTdNum = document.createElement('td');
+          var tbodyTdText = document.createElement('td');
+          var tbodyTdCoords = document.createElement('td');
+          tbodyTdNum.innerHTML = num;
+          tbodyTdText.innerHTML = clueText;
+          tbodyTdCoords.innerHTML = coords;
+          tbodyTr.appendChild(tbodyTdNum);
+          tbodyTr.appendChild(tbodyTdText);
+          tbodyTr.appendChild(tbodyTdCoords);
+
+          document.getElementById('clue_body').appendChild(tbodyTr);
+        
+          // Clear text box and coordinates on submit
+          document.getElementsByName("clue_text")[0].value = '';
+          initMap()
+        }
+        else{
+          alert("Please enter a clue or click the map for coordinates")
+        }
+      }
+
+      function newGame() {
+        gamecode = document.getElementsByName("radar_gc")[0].value;
+        console.log("gamecode:", gamecode);
+
+        if (!gamecode) {
+          alert("You must enter a game code!");
+        }
+
+        // set gamecode as tag and create a bunch of geofences in radar.io using these clues
+
+        var url = 'https://api.radar.io/v1/geofences/store/123';
+        var data = {}
+        fetch("https://api.radar.io/v1/geofences/store/123", {
+  body: "description=Store #123&type=circle&coordinates=[-73.975363,40.783826]&radius=100",
+  headers: {
+    Authorization: "prj_test_sk_37bca26db16576c0ea4aeff834e48b4cb4998996",
+    "Content-Type": "application/x-www-form-urlencoded"
+  },
+  method: "PUT"
+})
+          .then(response => {
+            console.log(response)
+            if (response.status === 200) {
+              console.log(response.text());
+          } else {
+            console.log("hi")
+           throw new Error('Something went wrong on api server!');
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+        // Radar.initialize("prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810");
+
+        // Radar.ipGeocode(function(err, result) {
+        //   if (err) {
+        //     console.error(err);
+
+        //     return;
+        //   }
+        //   else{
+        //     console.log(result)
+        //   }
+
+        //   if (result && result.address) {
+        //     console.log(result.address);
+        //   }
+        // });
+
+        // save clue texts somewhere (maybe AWS?)
+
+      }
+
+      // https://developers.google.com/maps/documentation/javascript/examples/event-click-latlng#all
+      function initMap() {
+        navigator.geolocation.getCurrentPosition(getCurrentLocation)
+
+        function getCurrentLocation(position) {
+
+          const myLatlng = { lat: position.coords.latitude, lng: position.coords.longitude };
+          const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 15,
+            center: myLatlng,
+          });
+          // Create the initial InfoWindow.
+          let infoWindow = new google.maps.InfoWindow({
+            content: "Click the map to get Lat/Lng!",
+            position: myLatlng,
+          });
+          infoWindow.open(map);
+          // Configure the click listener.
+          map.addListener("click", (mapsMouseEvent) => {
+            // Close the current InfoWindow.
+            infoWindow.close();
+            // Create a new InfoWindow.
+            infoWindow = new google.maps.InfoWindow({
+              position: mapsMouseEvent.latLng,
+            });
+            infoWindow.setContent(
+              JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+            );
+            coords = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+            infoWindow.open(map);
+          });
+      }
+    }
+
+
+
+    </script>
+  </body>
+</html>
