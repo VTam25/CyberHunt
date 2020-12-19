@@ -74,15 +74,15 @@
       var gamecode;
       var coords;
       var clueText;
-      var finalClues;
+      var finalClues = [];
       var num = 0;
 
       function addClue() {
         clueText = document.getElementsByName("clue_text")[0].value;
         if (coords && clueText){
           num+=1;
-          console.log("clueText:", clueText);
-          console.log("coords:", coords);
+          // console.log("clueText:", clueText);
+          // console.log("coords:", coords);
 
           // Add this clue to a table/array
 
@@ -92,13 +92,14 @@
           var tbodyTdCoords = document.createElement('td');
           tbodyTdNum.innerHTML = num;
           tbodyTdText.innerHTML = clueText;
-          tbodyTdCoords.innerHTML = coords;
+          tbodyTdCoords.innerHTML = coords.lat + "," + coords.lng;
           tbodyTr.appendChild(tbodyTdNum);
           tbodyTr.appendChild(tbodyTdText);
           tbodyTr.appendChild(tbodyTdCoords);
 
           document.getElementById('clue_body').appendChild(tbodyTr);
-        
+          finalClues.push([num, clueText, coords])
+
           // Clear text box and coordinates on submit
           document.getElementsByName("clue_text")[0].value = '';
           initMap()
@@ -110,55 +111,48 @@
 
       function newGame() {
         gamecode = document.getElementsByName("radar_gc")[0].value;
-        console.log("gamecode:", gamecode);
+        // console.log("gamecode:", gamecode);
 
         if (!gamecode) {
           alert("You must enter a game code!");
         }
+        else{
+          var process_clue_num;
+          var process_clue_text;
+          var process_clue_loc;
 
-        // set gamecode as tag and create a bunch of geofences in radar.io using these clues
+          for (i = 0; i < finalClues.length; i++){
+              process_clue_num = finalClues[i][0];
+              process_clue_text = finalClues[i][1];
+              process_clue_loc = finalClues[i][2];
+            console.log("Process Clue: ", finalClues[i])
 
-        var url = 'https://api.radar.io/v1/geofences/store/123';
-        var data = {}
-        fetch("https://api.radar.io/v1/geofences/store/123", {
-  body: "description=Store #123&type=circle&coordinates=[-73.975363,40.783826]&radius=100",
-  headers: {
-    Authorization: "prj_test_sk_37bca26db16576c0ea4aeff834e48b4cb4998996",
-    "Content-Type": "application/x-www-form-urlencoded"
-  },
-  method: "PUT"
-})
-          .then(response => {
-            console.log(response)
-            if (response.status === 200) {
-              console.log(response.text());
-          } else {
-            console.log("hi")
-           throw new Error('Something went wrong on api server!');
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
 
-        // Radar.initialize("prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810");
+            // set gamecode as tag and create a bunch of geofences in radar.io using these clues
+            // /api/v1/geofences/:tag/:externalId
 
-        // Radar.ipGeocode(function(err, result) {
-        //   if (err) {
-        //     console.error(err);
+            var url = `https://api.radar.io/v1/geofences/${gamecode}/${gamecode}${process_clue_num}`;
+            // var url = `https://api.radar.io/v1/geofences/store/123`;
+            fetch(url, {
+                body: `description=${gamecode} Clue #${process_clue_num}&type=circle&coordinates=[${process_clue_loc.lng},${process_clue_loc.lat}]&radius=50`,
+                headers: {
+                  Authorization: "prj_test_sk_37bca26db16576c0ea4aeff834e48b4cb4998996",
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                method: "PUT"
+              })
+              .then(response => {
+                if (response.ok) {
+                  response.json().then(json => {
+                    console.log(json.geofence);
+                  });
+                }
+              });
 
-        //     return;
-        //   }
-        //   else{
-        //     console.log(result)
-        //   }
+          } 
 
-        //   if (result && result.address) {
-        //     console.log(result.address);
-        //   }
-        // });
-
-        // save clue texts somewhere (maybe AWS?)
+          // save clue texts somewhere (maybe AWS?)
+        }
 
       }
 
@@ -169,6 +163,8 @@
         function getCurrentLocation(position) {
 
           const myLatlng = { lat: position.coords.latitude, lng: position.coords.longitude };
+          // console.log(myLatlng)
+
           const map = new google.maps.Map(document.getElementById("map"), {
             zoom: 15,
             center: myLatlng,
@@ -190,7 +186,7 @@
             infoWindow.setContent(
               JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
             );
-            coords = JSON.stringify(mapsMouseEvent.latLng.toJSON(), null, 2)
+            coords = mapsMouseEvent.latLng.toJSON()
             infoWindow.open(map);
           });
       }
