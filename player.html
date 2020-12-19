@@ -17,6 +17,9 @@
 
     <!-- Personal CSS-->
     <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Personal js-->
+    <script src = "player.js"> </script>
   
 
   </head>
@@ -24,15 +27,16 @@
   <body>
       <div class = "main" style = "text-align: center">
 
-       <h1> ENTER GAME CODE: </h1>
+       <h1> ENTER NAME AND GAME CODE: </h1>
 
        <div class="form-row">
            <div class= "col-xs-4">
-            <input type="text" class="form-control input-lg" style= "text-align: center" placeholder = "Enter Creator's Game Code" id="CODE"> 
+            <input type="text" class="form-control input-lg" style= "text-align: center; margin-bottom: 1rem" placeholder = "Enter Your Name" id="user">
+            <input type="text" class="form-control input-lg" style= "text-align: center; margin-bottom: 1rem" placeholder = "Enter Creator's Game Code" id="code"> 
             </div>
         </div>
 
-        <a href = "clue.html"> <button id = "go" type = "button" class="btn btn-success btn-lg" style="margin-top: 2em"> GO! </button> </a>
+        <a href = "clue.html"> <button id = "go" type = "button" class="btn btn-success btn-lg" style="margin-top: 1em" onclick="go()"> GO! </button> </a>
 
     </div>
   </body>
