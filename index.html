@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>CYBER HUNT</title>
+    <script src="https://js.radar.io/v3/radar.min.js"></script>
+  </head>
+  <body>
+    <div id="country">
+      Loading...
+    </div>
+
+    <script type="text/javascript">
+      Radar.initialize("prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810");
+
+      Radar.ipGeocode(function(err, result) {
+        if (err) {
+          console.error(err);
+
+          return;
+        }
+
+        if (result && result.address) {
+          console.log(result.address);
+
+          document.getElementById("country").innerHTML = "Your country is " +
+            result.address.countryFlag + " " + result.address.countryCode;
+        }
+      });
+    </script>
+  </body>
+</html>
