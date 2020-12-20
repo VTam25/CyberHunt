@@ -1,5 +1,5 @@
 # Coddiwomple
-![Coddiwomple](https://hackumass.blob.core.windows.net/hackumass-viii/project/Coddiwomple.PNG?1608448199)
+<img src="https://hackumass.blob.core.windows.net/hackumass-viii/project/Coddiwomple.PNG" alt="Coddiwomple" width="650"/>
 
 <b> Stuck inside? Miss your friends? Feeling the quarantine blues? Meet Coddiwomple: A virtual scavenger hunt! </b>
 
