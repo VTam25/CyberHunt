@@ -20,6 +20,9 @@
 
   </head>
   <body>
+    <div class = "head" style="text-align: center;">
+      <a href = "index.html"> <img class = "logo" src= "images/coddiwomple.png" style="height: 300px; width: 300px;" alt = "logo"> </a> 
+    </div>
     <h1 style="text-align: center;"> CREATE A GAME </h1>
     <div id = "new_game_form">
       <div id="game_code">
@@ -33,7 +36,9 @@
         </div>
         <label for="clue_text">Add a New Clue:</label>
         <textarea name="clue_text" rows="5" class="form-control"></textarea>
-        <input type="submit" class = "btn btn-primary" value="Add Clue" onclick="addClue()"/>
+        <div style="text-align: center;">
+        <input type="submit" class = "btn btn-primary btn-lg" value="Add Clue" onclick="addClue()"/>
+      </div>
       </div>
       
       <div id="clues">
@@ -55,10 +60,10 @@
       <table class = "center">
           <tr>
             <th id = "begin" style="text-align: left;">
-              <input type="submit" class = "btn btn-primary" value="Let's Begin!" onclick="newGame()"/>
+              <input type="submit" class = "btn btn-primary btn-lg" value="Let's Begin!" onclick="newGame()"/>
            </th>
           <th id = "back" style="text-align: right;">
-            <a href = "index.html"><button type = "button" class="btn btn-primary"> Back </button> </a>
+            <a href = "index.html"><button type = "button" class="btn btn-primary btn-lg"> Back </button> </a>
         </th>
       </tr>
     </table>

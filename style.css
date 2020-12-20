@@ -2,8 +2,11 @@ body{
     background-color: lightcoral;
 }
 .main{
-    margin-top: 10%;
-    margin-bottom: 15%;
+    margin-top: 5%;
+}
+
+html{
+    padding-bottom: 2em;
 }
 
 h1{
@@ -25,6 +28,18 @@ h2{
 h3{
     margin-top: 1em;
     margin-left: 2em;
+    font-size: 3em;
+    font-family: fantasy;
+    color: azure;
+}
+
+img{
+    height: 300px; 
+    width: 300px
+}
+
+h4{
+    display: inline;
     font-size: 3em;
     font-family: fantasy;
     color: azure;

@@ -23,12 +23,9 @@ h1{
     color: azure;
 }
 
-
-/* Optional: Makes the sample page fill the window. */
 html,
 body {
     background-color: lightcoral;
-    height: 100%;
     margin-left: 2em;
     margin-right: 2em;
     padding-bottom: 2em;
