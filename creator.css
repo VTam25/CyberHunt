@@ -1,0 +1,52 @@
+/* Always set the map height explicitly to define the size of the div
+* element that contains the map. */
+#map {
+    display: block;
+    height: 45%;
+    width: 100%
+}
+
+label, h3{
+    margin-top: 1em;
+    margin-bottom: 1rem;
+    font-family: fantasy;
+    font-weight: normal;
+    font-size:large;
+    color: azure;
+}
+
+h1{
+    margin-bottom: 1rem;
+    letter-spacing: 1rem;
+    font-size: 3em;
+    font-family: fantasy;
+    color: azure;
+}
+
+
+/* Optional: Makes the sample page fill the window. */
+html,
+body {
+    background-color: lightcoral;
+    height: 100%;
+    margin-left: 2em;
+    margin-right: 2em;
+    padding-bottom: 2em;
+}
+
+.form-control{
+    margin-bottom: 1rem;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th{
+    width: 50%;
+}
+
+#clue_table, #clue_body{
+    background-color: azure;
+}

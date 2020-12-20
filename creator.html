@@ -15,25 +15,12 @@
       defer
     ></script>
 
-    <style type="text/css">
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 45%;
-        width: 100%;
-      }
-
-      /* Optional: Makes the sample page fill the window. */
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+    <!-- Personal CSS -->
+    <link rel = "stylesheet" href = "creator.css">
 
   </head>
   <body>
+    <h1 style="text-align: center;"> CREATE A GAME </h1>
     <div id = "new_game_form">
       <div id="game_code">
         <label for="radar_gc">Enter Game Code:</label>
@@ -46,7 +33,7 @@
         </div>
         <label for="clue_text">Add a New Clue:</label>
         <textarea name="clue_text" rows="5" class="form-control"></textarea>
-        <input type="submit" value="Add Clue" onclick="addClue()"/>
+        <input type="submit" class = "btn btn-primary" value="Add Clue" onclick="addClue()"/>
       </div>
       
       <div id="clues">
@@ -65,13 +52,16 @@
       </div>
 
       <div>
-       <input type="submit" value="Let the hunt begin." onclick="newGame()"/>
-      </div>
-      <br>
-      <div>
-       <a href = "index.html"><button type = "button" class="btn btn-primary my-2 btn-lg customSize"> BACK </button> </a>
-      </div>
-
+      <table class = "center">
+          <tr>
+            <th id = "begin" style="text-align: left;">
+              <input type="submit" class = "btn btn-primary" value="Let's Begin!" onclick="newGame()"/>
+           </th>
+          <th id = "back" style="text-align: right;">
+            <a href = "index.html"><button type = "button" class="btn btn-primary"> Back </button> </a>
+        </th>
+      </tr>
+    </table>
     </div>
     
     <script type="text/javascript">
