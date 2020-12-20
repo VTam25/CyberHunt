@@ -36,7 +36,8 @@ def save_clues(request):
         cl_lat = float(cl["lat"])
         cl_lng = float(cl["lng"])
         cl_num = int(cl["num"])
-        stmt = sqlalchemy.text(f'INSERT INTO clues (text, lat, lng, num) values ("{cl_text}", {cl_lat}, {cl_lng}, {cl_num});')
+        cl_gc = str(cl["gamecode"])
+        stmt = sqlalchemy.text(f'INSERT INTO clues (text, lat, lng, num, gamecode) values ("{cl_text}", {cl_lat}, {cl_lng}, {cl_num}, "{cl_gc}");')
         try:
             with db.connect() as conn:
                 conn.execute(stmt)

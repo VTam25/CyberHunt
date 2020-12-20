@@ -65,7 +65,7 @@
       </div>
 
       <div>
-       <input type="submit" value="Let the hunt begin." onclick="newGame()"/>
+       <a href = "index.html"><input type="submit" value="Let the hunt begin." onclick="newGame()"/></a>
       </div>
 
     </div>
@@ -127,7 +127,7 @@
               process_clue_text = finalClues[i][1];
               process_clue_loc = finalClues[i][2];
 
-              clueListBody.push( {"num": process_clue_num, "clue": process_clue_text, "lat": process_clue_loc.lat, "lng": process_clue_loc.lng });
+              clueListBody.push( {"num": process_clue_num, "clue": process_clue_text, "lat": process_clue_loc.lat, "lng": process_clue_loc.lng, "gamecode": gamecode });
 
             // console.log("Process Clue: ", finalClues[i])
 
@@ -159,7 +159,7 @@
           const proxyurl = "https://cors-anywhere.herokuapp.com/";
           // save clue texts somewhere in google cloud
           var json_body = JSON.stringify({"clues": clueListBody});
-          // console.log(json_body);
+          console.log(json_body);
           fetch(proxyurl + "https://us-central1-cse6242-291522.cloudfunctions.net/cyber-hunt-save", {
             body: json_body,
             headers: {
@@ -169,7 +169,7 @@
             mode: 'cors'
           })
 
-
+          alert("Game has been created.");
         }
 
       }
