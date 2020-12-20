@@ -15,3 +15,15 @@ We used Radar API, Google Maps API, GCP, HTML/CSS, bootstrap, and javascript to 
 <b> What's Next? </b>
 <br>
 A future step would be moving this over to a modern web-dev framework like React to help with the back end and for better security practices. We also want to add more features to Coddiwomple for creators of scavenger hunts to keep track of where all their players are with the Radar API, as well as more fitness trackers for the players to see their total distance and time walked during a game!
+
+
+Runbook:
+This is (unsecurely) all implemented on the client side and thus only needs a simple http server to run on. For example, `python -m http.server`
+
+Note that however, we use Google's geolocation API in `navigator.geolocation` and in creating a map that only supports requests on secured HTTPS protocols. We didn't realize this as testing on localhost is a special case that ignores this. When using Coddiwomple live, please use this temporary workaround to get location services running _AT YOUR OWN RISK_
+
+1. Go to chrome://flags/#unsafely-treat-insecure-origin-as-secure
+2. Add `http://coddiwomple.space` into the textbox
+3. Enable "Insecure Origins Treated as Secure" 
+4. You will be asked to relaunch Chrome.
+5. Enjoy Coddiwomple with location features!
