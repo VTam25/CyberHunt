@@ -25,11 +25,11 @@
 
       /* Optional: Makes the sample page fill the window. */
       html,
-  /*    body {
+      body {
         height: 100%;
         margin: 0;
         padding: 0;
-      }*/
+      }
     </style>
 
   </head>
@@ -120,12 +120,16 @@
           var process_clue_num;
           var process_clue_text;
           var process_clue_loc;
+          var clueListBody = [];
 
           for (i = 0; i < finalClues.length; i++){
               process_clue_num = finalClues[i][0];
               process_clue_text = finalClues[i][1];
               process_clue_loc = finalClues[i][2];
-            console.log("Process Clue: ", finalClues[i])
+
+              clueListBody.push( {"num": process_clue_num, "clue": process_clue_text, "lat": process_clue_loc.lat, "lng": process_clue_loc.lng });
+
+            // console.log("Process Clue: ", finalClues[i])
 
 
             // set gamecode as tag and create a bunch of geofences in radar.io using these clues
@@ -144,14 +148,28 @@
               .then(response => {
                 if (response.ok) {
                   response.json().then(json => {
-                    console.log(json.geofence);
+                    // console.log("Make a geofence: ", json.geofence);
                   });
                 }
               });
 
-          } 
+          }
 
-          // save clue texts somewhere (maybe AWS?)
+
+          const proxyurl = "https://cors-anywhere.herokuapp.com/";
+          // save clue texts somewhere in google cloud
+          var json_body = JSON.stringify({"clues": clueListBody});
+          // console.log(json_body);
+          fetch(proxyurl + "https://us-central1-cse6242-291522.cloudfunctions.net/cyber-hunt-save", {
+            body: json_body,
+            headers: {
+              "Content-Type": "application/json"
+            },
+            method: "POST",
+            mode: 'cors'
+          })
+
+
         }
 
       }
