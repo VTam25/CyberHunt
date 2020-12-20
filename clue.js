@@ -18,8 +18,8 @@ function showCurrentLocation(position) {
             longitude: userLng 
         },
         destination: {
-            latitude: 40.70390,
-            longitude: -73.98670
+            latitude: 42.4627873, 
+            longitude: -71.1295618
         },
         modes: [
             'foot',
@@ -29,7 +29,6 @@ function showCurrentLocation(position) {
         }, 
         function(err, result) {
             if (err) {
-                // do something with result.routes
                 console.error(err);
                 return;
             }
@@ -54,7 +53,7 @@ function createUser(){
     //console.log(userId);
 
     fetch("https://api.radar.io/v1/track", {
-    body: `deviceId=C305F2DB-56DC-404F-B6C1-BC52F0B680D8&userId=${userId}&latitude=${userLat}&longitude=${userLng}&accuracy=5`,
+    body: `deviceId=C305F2DB-56DC-404F-B6C1-BC52F0B680D8&userId=${userId}&latitude=${userLat}&longitude=${userLng}&accuracy=1`,
     headers: {
         Authorization: "prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -69,6 +68,29 @@ function createUser(){
       });
 
   } 
+
+
+  //updates location every 3 minutes and checks if user has entered geofence
+  setInterval(function() {
+    navigator.geolocation.getCurrentPosition(showCurrentLocation);
+    console.log("Updated location");
+
+    //search for geofences
+    fetch("https://api.radar.io/v1/search/geofences?tags=store&metadata[offers]=true&near=42.469485,-71.1329569&radius=500&limit=10", {
+        headers: {
+        Authorization: "prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810"
+        }
+        }).then(response => {
+        if (response.ok) {
+            response.json().then(json => {
+            console.log(json);
+            });
+        }
+        });
+  }, 180 * 1000); //120 * 1000 milliseconds = 3min
+
+
+
 
     // Radar.trackOnce(function(err, result) {
     //     if (err) {
