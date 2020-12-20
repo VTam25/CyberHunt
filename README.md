@@ -1,4 +1,5 @@
 # Coddiwomple
+![Coddiwomple](https://hackumass.blob.core.windows.net/hackumass-viii/project/Coddiwomple.PNG?1608448199)
 
 <b> Stuck inside? Miss your friends? Feeling the quarantine blues? Meet Coddiwomple: A virtual scavenger hunt! </b>
 
@@ -17,7 +18,7 @@ We used Radar API, Google Maps API, GCP, HTML/CSS, bootstrap, and javascript to 
 A future step would be moving this over to a modern web-dev framework like React to help with the back end and for better security practices. We also want to add more features to Coddiwomple for creators of scavenger hunts to keep track of where all their players are with the Radar API, as well as more fitness trackers for the players to see their total distance and time walked during a game!
 
 
-Runbook:
+## Runbook:
 This is (unsecurely) all implemented on the client side and thus only needs a simple http server to run on. For example, `python -m http.server`
 
 Note that however, we use Google's geolocation API in `navigator.geolocation` and in creating a map that only supports requests on secured HTTPS protocols. We didn't realize this as testing on localhost is a special case that ignores this. When using Coddiwomple live, please use this temporary workaround to get location services running _AT YOUR OWN RISK_
