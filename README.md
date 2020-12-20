@@ -1,4 +1,4 @@
-# CyberHunt
+# Coddiwomple
 
 <b> Stuck inside? Miss your friends? Feeling the quarantine blues? Meet Coddiwomple: A virtual scavenger hunt! </b>
 
