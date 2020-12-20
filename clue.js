@@ -1,4 +1,4 @@
-Radar.initialize("prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810");
+Radar.initialize("prj_test_sk_37bca26db16576c0ea4aeff834e48b4cb4998996");
 
 navigator.geolocation.getCurrentPosition(showCurrentLocation);
 
@@ -6,20 +6,52 @@ var userId;
 var userLat;
 var userLng;
 
+var currentClue = 1;
+var clueLat;
+var clueLong;
+var clueText; 
+
 function showCurrentLocation(position) {
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    // save clue texts somewhere in google cloud
+    var json_body = JSON.stringify({"gamecode": localStorage.getItem("game_code"), "clue_num": currentClue});
+    console.log(json_body);
+    fetch(proxyurl + "https://us-central1-cse6242-291522.cloudfunctions.net/cyber-hunt-get", {
+        body: json_body,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        mode: 'cors'
+    }).then(response => {
+                if (response.ok) {
+                  response.json().then(json => {
+                    console.log(json[currentClue])
+                    clueLat = json[currentClue].lat;
+                    clueLong = json[currentClue].lng;
+                    clueText = json[currentClue].text;
+                    document.getElementById("clue_text").innerHTML = clueText;
+
+                  });
+                }
+              });
+
     userLat = position.coords.latitude;
     userLng = position.coords.longitude;
 
     document.getElementById("latlng").innerHTML = "Your current latitude: " + userLat + " and longitude: " + userLng;
 
+    console.log(clueLat, clueLong)
     Radar.getDistance({
         origin: {
             latitude: userLat, 
             longitude: userLng 
         },
         destination: {
-            latitude: 42.4627873, 
-            longitude: -71.1295618
+            // latitude: clueLat, //42.4627873, 
+            // longitude: clueLong //-71.1295618
+            latitude: clueLat, //42.4627873, 
+            longitude: clueLong //-71.1295618
         },
         modes: [
             'foot',
@@ -53,9 +85,9 @@ function createUser(){
     //console.log(userId);
 
     fetch("https://api.radar.io/v1/track", {
-    body: `deviceId=C305F2DB-56DC-404F-B6C1-BC52F0B680D8&userId=${userId}&latitude=${userLat}&longitude=${userLng}&accuracy=1`,
+    body: `deviceId=test&userId=${userId}&latitude=${userLat}&longitude=${userLng}&accuracy=20`,
     headers: {
-        Authorization: "prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810",
+        Authorization: "prj_test_sk_37bca26db16576c0ea4aeff834e48b4cb4998996",
         "Content-Type": "application/x-www-form-urlencoded"
     },
     method: "POST"
@@ -76,20 +108,26 @@ function createUser(){
     console.log("Updated location");
 
     //search for geofences
-    fetch("https://api.radar.io/v1/search/geofences?tags=store&metadata[offers]=true&near=42.469485,-71.1329569&radius=500&limit=10", {
-        headers: {
-        Authorization: "prj_test_pk_195f3978e612ac59d90041639ebac732b3db7810"
-        }
-        }).then(response => {
+    fetch("https://api.radar.io/v1/track", {
+    body: `deviceId=test&userId=${userId}&latitude=${userLat}&longitude=${userLng}&accuracy=20`,
+    headers: {
+        Authorization: "prj_test_sk_37bca26db16576c0ea4aeff834e48b4cb4998996",
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    method: "POST"
+    }).then(response => {
         if (response.ok) {
-            response.json().then(json => {
-            console.log(json);
-            });
+          response.json().then(json => {
+            console.log("tracking update: ", json.user);
+            if (json.user.geofences[0].externalId === ""+currentClue){
+                console.log("You found the clue!");
+                alert("You found the clue!!")
+                currentClue+=1;
+            }
+          });
         }
-        });
-  }, 180 * 1000); //120 * 1000 milliseconds = 3min
-
-
+      });
+  }, 30 * 1000); //120 * 1000 milliseconds = 3min
 
 
     // Radar.trackOnce(function(err, result) {

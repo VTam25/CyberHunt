@@ -1,4 +1,5 @@
 import sqlalchemy
+import json
 # Depending on which database you are using, you'll set some variables differently. 
 # In this code we are inserting only one field with one value. 
 # Feel free to change the insert statement as needed for your own table's requirements.
@@ -44,4 +45,4 @@ def save_clues(request):
         except Exception as e:
             return 'Error: {}'.format(str(e))
 
-    return request_json
+    return json.dumps(request_json)

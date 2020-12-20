@@ -134,7 +134,7 @@
             // set gamecode as tag and create a bunch of geofences in radar.io using these clues
             // /api/v1/geofences/:tag/:externalId
 
-            var url = `https://api.radar.io/v1/geofences/${gamecode}/${gamecode}${process_clue_num}`;
+            var url = `https://api.radar.io/v1/geofences/${gamecode}/${process_clue_num}`;
             // var url = `https://api.radar.io/v1/geofences/store/123`;
             fetch(url, {
                 body: `description=${gamecode} Clue #${process_clue_num}&type=circle&coordinates=[${process_clue_loc.lng},${process_clue_loc.lat}]&radius=50`,
