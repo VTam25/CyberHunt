@@ -1,6 +1,6 @@
 # CyberHunt
 
-Stuck inside? Miss your friends? Feeling the quarantine blues? Meet Coddiwomple: A virtual scavenger hunt!
+<b> Stuck inside? Miss your friends? Feeling the quarantine blues? Meet Coddiwomple: A virtual scavenger hunt! </b>
 
 The word Coddiwomple means "to travel in a purposeful manner towards a vague destination". Given the pandemic, many of us have had fewer chances to go out or interact with friends in a safe and fun way. A lack of social interaction, a lack of vitamin D, and growing anxiety in the year 2020; sometimes this year has felt like we're all a little lost. This can really take a toll on your mental and physical health. So how about we coddiwomple our way to 2021 instead? Using the radar API which we first heard of at HackUMass, we wanted to create a fun activity that would get people moving and have fun while staying COVID-safe. 
 
